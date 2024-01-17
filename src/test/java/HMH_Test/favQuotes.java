@@ -1,18 +1,11 @@
-package HMH_Test.HMH_Test;
+package HMH_Test;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class apiTest {
-	 private static final String API_KEY = "a2e931d9245cf987424de98c8c837d1b";
-
-	    @BeforeClass
-	    public void setup() {
-	        RestAssured.baseURI = "https://favqs.com/api";
-	    }
+public class favQuotes extends baseTest{
 
 
     @Test
@@ -48,21 +41,21 @@ public class apiTest {
     }
 
     @Test
-    public void testListQuotes() {
+    public void testUnfavQuote() {
+
+		String quoteId = "7";
         Response response = RestAssured
             .given()
             .header("Authorization", "Token token=" + API_KEY)
             .when()
-            .get("/quotes");
+            .put("/quotes/" + quoteId + "/unfav");
 
-        System.out.println("Test Case: testListQuotes");
+        System.out.println("Test Case: testFavQuote");
         System.out.println("Response Status Code: " + response.getStatusCode());
         System.out.println("Response Body: " + response.getBody().asString());
 
         Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertTrue(response.jsonPath().getList("quotes").size() > 0);
     }
-
-		
+	
 
 }
